@@ -1,0 +1,35 @@
+server:
+  port: 8100
+spring:
+  application:
+    name: hello-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+      routes:
+        - id: demo-name
+          uri: lb://hello-consumer/**
+          predicates:
+            - Path=/name/**
+          filters:
+            - AddRequestHeader=X-Request-Foo, Bar
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback
+        - id: demo-number
+          uri: lb://hello-consumer/**
+          predicates:
+            - Path=/number/**
+        - id: name
+          uri: lb://hello-provider/**
+          predicates:
+            - Path=/hello/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://koreyoshi.work:8761/eureka/
+
+
