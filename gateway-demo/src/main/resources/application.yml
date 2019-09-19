@@ -2,7 +2,15 @@ server:
   port: 8100
 spring:
   application:
-    name: hello-gateway
+    name: hello-gateway-zip
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0 # 采用比例，默认 0.1 全部采样 1.0
+  zipkin:
+    base-url: http://localhost:9411/ # 指定了Zipkin服务器的地址
   cloud:
     gateway:
       discovery:
@@ -10,7 +18,7 @@ spring:
           lower-case-service-id: true
       routes:
         - id: demo-name
-          uri: lb://hello-consumer/**
+          uri: lb://hello-consumer-zip/**
           predicates:
             - Path=/name/**
           filters:
@@ -20,16 +28,19 @@ spring:
                 name: fallbackcmd
                 fallbackUri: forward:/fallback
         - id: demo-number
-          uri: lb://hello-consumer/**
+          uri: lb://hello-consumer-zip/**
           predicates:
             - Path=/number/**
         - id: name
-          uri: lb://hello-provider/**
+          uri: lb://hello-provider-zip/**
           predicates:
             - Path=/hello/**
 eureka:
   client:
     serviceUrl:
       defaultZone: http://koreyoshi.work:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
 
 

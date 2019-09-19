@@ -19,13 +19,13 @@ public class HttpClient {
     private RestTemplate restTemplate;
 
     public Result getStr(String name){
-        String url = UriTemplate.fromTemplate("http://HELLO-PROVIDER/hello/{name}").set("name", name).expand();
+        String url = UriTemplate.fromTemplate("http://HELLO-PROVIDER-ZIP/hello/{name}").set("name", name).expand();
         return restTemplate.exchange(UriComponentsBuilder.fromHttpUrl(url).build(true).toUri(), HttpMethod.POST, null, new ParameterizedTypeReference<Result<Person>>() {
         }).getBody();
     }
 
     public Result getSpecialStr(String number){
-        String url = UriTemplate.fromTemplate("http://HELLO-PROVIDER/special/{number}").set("number", number).expand();
+        String url = UriTemplate.fromTemplate("http://HELLO-PROVIDER-ZIP/special/{number}").set("number", number).expand();
         return restTemplate.exchange(UriComponentsBuilder.fromHttpUrl(url).build(true).toUri(), HttpMethod.POST, null, new ParameterizedTypeReference<Result<Person>>() {
         }).getBody();
     }
