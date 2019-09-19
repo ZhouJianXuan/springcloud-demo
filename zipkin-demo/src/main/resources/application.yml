@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: zipkin-server
+server:
+  port: 9001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://koreyoshi.work:8761/eureka/
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+
